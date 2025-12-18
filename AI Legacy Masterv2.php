@@ -1,7 +1,7 @@
 {source}
 <?php
 /**
- * LottoExpert.net — SKAI Gate + Config Loader (production-safe)
+ * LottoExpert.net - SKAI Gate + Config Loader (production-safe)
  * Joomla context (Sourcerer {source} in an article/module)
  *
  * Notes:
@@ -462,14 +462,14 @@ $best = end($stats);
 // LottoExpert configs typically use "dbCol" for the draw table.
 // Support common aliases to prevent empty-table failures.
 $rawSpecTable = '';
-if (isset($foundSpec['tableName'])) {
-    $rawSpecTable = (string) $foundSpec['tableName'];
-} elseif (isset($foundSpec['dbCol'])) {
-    $rawSpecTable = (string) $foundSpec['dbCol'];
-} elseif (isset($foundSpec['table'])) {
-    $rawSpecTable = (string) $foundSpec['table'];
-} elseif (isset($foundSpec['db_table'])) {
-    $rawSpecTable = (string) $foundSpec['db_table'];
+if (isset($spec['tableName'])) {
+    $rawSpecTable = (string) $spec['tableName'];
+} elseif (isset($spec['dbCol'])) {
+    $rawSpecTable = (string) $spec['dbCol'];
+} elseif (isset($spec['table'])) {
+    $rawSpecTable = (string) $spec['table'];
+} elseif (isset($spec['db_table'])) {
+    $rawSpecTable = (string) $spec['db_table'];
 }
 
 $rawSpecTable = trim($rawSpecTable);
@@ -587,7 +587,7 @@ foreach ($extraFieldNames as $col) {
 [[title]]
   <?php
     // Use the JSON 'state' value directly
-    $state     = $foundSpec['state'];       // e.g. "Multi-State"
+    $state     = $spec['state'];       // e.g. "Multi-State"
     $today     = date('F j, Y');            // e.g. "July 8, 2025"
     $fullTitle = "$lotteryName ? $state ? $today | LottoExpert";
 
@@ -1107,7 +1107,7 @@ button.button-reset:hover{
 [[body]]
 [[div class="ai-powerball-prediction"]]
   <?php
-    $state       = $foundSpec['state'];
+    $state       = $spec['state'];
     $today       = date('F j, Y');
     $headingText = "$lotteryName ? $state ? $today";
   ?>
