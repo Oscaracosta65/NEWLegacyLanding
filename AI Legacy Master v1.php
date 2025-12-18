@@ -334,18 +334,20 @@ $tableName = $foundSpec['tableName'];  // e.g. "#__lotterydb_pa"
  */
 function getNextDrawDate($gameId, $db, $tableName) {
     // Extract suffix from #__tablename pattern, then build full name safely
+    // Check if tableName is empty
+    if (trim($tableName) === '') {
+        throw new \RuntimeException('Invalid table name in getNextDrawDate: tableName is empty');
+    }
+    
     if (strpos($tableName, '#__') === 0) {
         // Has #__ prefix, extract suffix
         $suffix = substr($tableName, 3);
         if (empty(trim($suffix))) {
-            throw new \RuntimeException('Invalid table name pattern in getNextDrawDate: empty suffix');
+            throw new \RuntimeException('Invalid table name pattern in getNextDrawDate: empty suffix after #__');
         }
         $fullTableName = $db->getPrefix() . $suffix;
     } else {
         // No #__ prefix, use as-is with prefix
-        if (empty(trim($tableName))) {
-            throw new \RuntimeException('Invalid table name pattern in getNextDrawDate: empty table name');
-        }
         $fullTableName = $db->getPrefix() . $tableName;
     }
     $tbl = $db->quoteName($fullTableName);
@@ -622,18 +624,20 @@ $best = end($stats);
 // Securely connect to the Joomla database
 
 // Extract suffix from #__tablename pattern, then build full name safely
+// Check if tableName key exists and is not empty
+if (!isset($foundSpec['tableName']) || trim($foundSpec['tableName']) === '') {
+    die('Invalid table name in lottery specs: tableName is missing or empty. Please check lotteries.json for game ID ' . $gameId);
+}
+
 if (strpos($foundSpec['tableName'], '#__') === 0) {
     // Has #__ prefix, extract suffix
     $tableSuffix = substr($foundSpec['tableName'], 3);
     if (empty(trim($tableSuffix))) {
-        die('Invalid table name pattern in lottery specs: empty suffix');
+        die('Invalid table name pattern in lottery specs: empty suffix after #__');
     }
     $fullDbTableName = $db->getPrefix() . $tableSuffix;
 } else {
     // No #__ prefix, use as-is with prefix
-    if (empty(trim($foundSpec['tableName']))) {
-        die('Invalid table name pattern in lottery specs: empty table name');
-    }
     $fullDbTableName = $db->getPrefix() . $foundSpec['tableName'];
 }
 $dbCol = $db->quoteName($fullDbTableName);
