@@ -334,14 +334,14 @@ $tableName = $foundSpec['tableName'];  // e.g. "#__lotterydb_pa"
  */
 function getNextDrawDate($gameId, $db, $tableName) {
     // Extract suffix from #__tablename pattern, then build full name safely
-    $suffix = str_replace('#__', '', $tableName);
+    if (strpos($tableName, '#__') !== 0) {
+        throw new \RuntimeException('Invalid table name pattern in getNextDrawDate: must start with #__');
+    }
+    $suffix = substr($tableName, 3);
     if (empty(trim($suffix))) {
-        throw new \RuntimeException('Invalid table name pattern in getNextDrawDate');
+        throw new \RuntimeException('Invalid table name pattern in getNextDrawDate: empty suffix');
     }
     $fullTableName = $db->getPrefix() . $suffix;
-    if (empty(trim($fullTableName))) {
-        throw new \RuntimeException('Resolved table name is empty in getNextDrawDate');
-    }
     $tbl = $db->quoteName($fullTableName);
     $q   = $db->getQuery(true)
         ->select($db->quoteName('next_draw_date'))
@@ -616,14 +616,14 @@ $best = end($stats);
 // Securely connect to the Joomla database
 
 // Extract suffix from #__tablename pattern, then build full name safely
-$tableSuffix = str_replace('#__', '', $foundSpec['tableName']);
+if (strpos($foundSpec['tableName'], '#__') !== 0) {
+    die('Invalid table name pattern in lottery specs: must start with #__');
+}
+$tableSuffix = substr($foundSpec['tableName'], 3);
 if (empty(trim($tableSuffix))) {
-    die('Invalid table name pattern in lottery specs');
+    die('Invalid table name pattern in lottery specs: empty suffix');
 }
 $fullDbTableName = $db->getPrefix() . $tableSuffix;
-if (empty(trim($fullDbTableName))) {
-    die('Resolved database table name is empty');
-}
 $dbCol = $db->quoteName($fullDbTableName);
 
 
