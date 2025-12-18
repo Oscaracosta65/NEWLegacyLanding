@@ -334,14 +334,20 @@ $tableName = $foundSpec['tableName'];  // e.g. "#__lotterydb_pa"
  */
 function getNextDrawDate($gameId, $db, $tableName) {
     // Extract suffix from #__tablename pattern, then build full name safely
-    if (strpos($tableName, '#__') !== 0) {
-        throw new \RuntimeException('Invalid table name pattern in getNextDrawDate: must start with #__');
+    if (strpos($tableName, '#__') === 0) {
+        // Has #__ prefix, extract suffix
+        $suffix = substr($tableName, 3);
+        if (empty(trim($suffix))) {
+            throw new \RuntimeException('Invalid table name pattern in getNextDrawDate: empty suffix');
+        }
+        $fullTableName = $db->getPrefix() . $suffix;
+    } else {
+        // No #__ prefix, use as-is with prefix
+        if (empty(trim($tableName))) {
+            throw new \RuntimeException('Invalid table name pattern in getNextDrawDate: empty table name');
+        }
+        $fullTableName = $db->getPrefix() . $tableName;
     }
-    $suffix = substr($tableName, 3);
-    if (empty(trim($suffix))) {
-        throw new \RuntimeException('Invalid table name pattern in getNextDrawDate: empty suffix');
-    }
-    $fullTableName = $db->getPrefix() . $suffix;
     $tbl = $db->quoteName($fullTableName);
     $q   = $db->getQuery(true)
         ->select($db->quoteName('next_draw_date'))
@@ -616,14 +622,20 @@ $best = end($stats);
 // Securely connect to the Joomla database
 
 // Extract suffix from #__tablename pattern, then build full name safely
-if (strpos($foundSpec['tableName'], '#__') !== 0) {
-    die('Invalid table name pattern in lottery specs: must start with #__');
+if (strpos($foundSpec['tableName'], '#__') === 0) {
+    // Has #__ prefix, extract suffix
+    $tableSuffix = substr($foundSpec['tableName'], 3);
+    if (empty(trim($tableSuffix))) {
+        die('Invalid table name pattern in lottery specs: empty suffix');
+    }
+    $fullDbTableName = $db->getPrefix() . $tableSuffix;
+} else {
+    // No #__ prefix, use as-is with prefix
+    if (empty(trim($foundSpec['tableName']))) {
+        die('Invalid table name pattern in lottery specs: empty table name');
+    }
+    $fullDbTableName = $db->getPrefix() . $foundSpec['tableName'];
 }
-$tableSuffix = substr($foundSpec['tableName'], 3);
-if (empty(trim($tableSuffix))) {
-    die('Invalid table name pattern in lottery specs: empty suffix');
-}
-$fullDbTableName = $db->getPrefix() . $tableSuffix;
 $dbCol = $db->quoteName($fullDbTableName);
 
 
