@@ -413,7 +413,7 @@ $extraFieldNames = $hasExtraBall
     ? array_slice($allNumberFields, $pickSize, $numExtraBalls)
     : [];// -- end HARD-CODED COLUMN NAMES --
 
-// (A) Helper to compute ?n choose k?
+// (A) Helper to compute 'n choose k'
 function combination($n, $k) {
     if ($k > $n) return 0;
     $res = 1;
@@ -433,7 +433,7 @@ $custom = isset($_REQUEST['customCount']) ? (int) $_REQUEST['customCount'] : nul
 
 // 2) build the raw list: always include 1 ticket, stock buckets, and custom
 $raw = [
-  $pickSize,  // ?1 ticket?
+  $pickSize,  // "1 ticket"
   10, 15, 20, // stock buckets
   $custom     // optional custom
 ];
@@ -464,7 +464,7 @@ foreach ($options as $opt) {
     ];
 }
 
-// (E) Grab the ?best? (last) row for headlines
+// (E) Grab the "best" (last) row for headlines
 $best = end($stats);
 
 // -- DYNAMIC BUCKETS BLOCK END --
@@ -605,7 +605,7 @@ foreach ($extraFieldNames as $col) {
     // Use the JSON 'state' value directly
     $state     = $spec['state'];       // e.g. "Multi-State"
     $today     = date('F j, Y');            // e.g. "July 8, 2025"
-    $fullTitle = "$lotteryName ? $state ? $today | LottoExpert";
+    $fullTitle = "$lotteryName - $state - $today | LottoExpert";
 
     // Output the actual <title> tag
     echo '[[title]]' . htmlspecialchars($fullTitle, ENT_QUOTES, 'UTF-8') . '[[/title]]';
@@ -868,7 +868,7 @@ button.button-reset:hover{
   font-weight: 600;
 }
 
-/* Number ball styling ? reserve fixed size to prevent layout shifts */
+/* Number ball styling - reserve fixed size to prevent layout shifts */
 .number-ball {
   flex: 0 0 60px;
   border-radius: 50%;
@@ -1034,7 +1034,7 @@ button.button-reset:hover{
   margin-top: 10px;
 }
 
-/* Reserve initial space for the hero card?s top area to minimize CLS */
+/* Reserve initial space for the hero card's top area to minimize CLS */
 .ai-powerball-prediction{
   min-height: 120px;
 }
@@ -1056,7 +1056,7 @@ button.button-reset:hover{
   }
 }
 
-/* SKAI mode selector ? Balanced / Explorative / Conservative */
+/* SKAI mode selector - Balanced / Explorative / Conservative */
 .skai-mode-strip {
   max-width: 960px;
   margin: 18px auto 10px auto;
@@ -1125,7 +1125,7 @@ button.button-reset:hover{
   <?php
     $state       = $spec['state'];
     $today       = date('F j, Y');
-    $headingText = "$lotteryName ? $state ? $today";
+    $headingText = "$lotteryName - $state - $today";
   ?>
   [[h1]]AI-Powered Lottery Prediction Analysis for <?php echo htmlspecialchars($headingText, ENT_QUOTES, 'UTF-8'); ?>[[/h1]]
 [[p]]
@@ -1176,7 +1176,7 @@ button.button-reset:hover{
         [[/p]]
       [[/div]]
 [[style]]
-/* Modal Styling ? SKAI look */
+/* Modal Styling - SKAI look */
 #signupOverlay {
   display: none;
   position: fixed;
@@ -1251,7 +1251,7 @@ button.button-reset:hover{
     [[/p]]
 
     [[p style="margin-top:1.25em; font-size:0.95em; color:#666;"]]
-      No hype. No false promises. Just transparent, data-driven tools built to help you play smarter?every time.
+      No hype. No false promises. Just transparent, data-driven tools built to help you play smarter-every time.
     [[/p]]
 
     [[div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:14px;"]]
@@ -1331,7 +1331,7 @@ document.addEventListener('DOMContentLoaded', function () {
         aria-pressed="true"
       ]]
         [[span class="skai-mode-label"]]Balanced[[/span]]
-        [[span]]Everyday play ? steady, game-tuned settings.[[/span]]
+        [[span]]Everyday play - steady, game-tuned settings.[[/span]]
       [[/button]]
 
       [[button
@@ -1341,7 +1341,7 @@ document.addEventListener('DOMContentLoaded', function () {
         aria-pressed="false"
       ]]
         [[span class="skai-mode-label"]]Mixed[[/span]]
-        [[span]]Adaptive blend based on AI?Skip agreement.[[/span]]
+        [[span]]Adaptive blend based on AI-Skip agreement.[[/span]]
       [[/button]]
 
       [[button
@@ -1385,16 +1385,16 @@ document.addEventListener('DOMContentLoaded', function () {
       [[/button]]
     [[/div]]
 
-    <!-- PATCH 7A: Live SKAI blend readout (AI ? vs Skip 1-?, plus ? and T) -->
+    <!-- PATCH 7A: Live SKAI blend readout (AI lambda vs Skip 1-lambda, plus beta and T) -->
     [[div id="skaiBlendReadout"
       style="margin-top:10px; padding:10px; border:1px solid rgba(0,0,0,0.12); border-radius:8px; font-weight:700; color:var(--skai-navy);"
       aria-live="polite"
     ]]
-      Mode: balanced ? AI ?: 0.65 ? Skip: 0.35 ? ?: 2.00 ? T: 1.00
+      Mode: balanced - AI lambda: 0.65 - Skip: 0.35 - beta: 2.00 - T: 1.00
     [[/div]]
 
     [[p id="skaiModeDescription" class="skai-mode-desc skai-mode-description"]]
-      Balanced mode uses game-specific defaults for <?php echo htmlspecialchars($lotteryName, ENT_QUOTES, 'UTF-8'); ?> ? a steady choice for most sessions.
+      Balanced mode uses game-specific defaults for <?php echo htmlspecialchars($lotteryName, ENT_QUOTES, 'UTF-8'); ?> - a steady choice for most sessions.
     [[/p]]
 
     [[div class="custom-container"]]
@@ -1436,12 +1436,12 @@ document.addEventListener('DOMContentLoaded', function () {
         [[p]][[strong]]Typical Range:[[/strong]] 1 to 5.[[/p]]
         
         [[h4 style="margin-top: 10px;"]]Recency Decay[[/h4]]
-        [[p]][[strong]]Definition:[[/strong]] Recency Decay controls how much we care about old draws versus new ones. If it?s 1.0, every draw is treated exactly the same. If it?s lower (like 0.8), each step back in time becomes a bit less important.[[/p]]
-        [[p]][[strong]]Imagine this:[[/strong]] You collect a sticker each day. With 0.8 decay, yesterday?s sticker counts full, but the one from two days ago counts as 0.8?1=0.8, three days ago as 0.8?0.8=0.64, and so on.[[/p]]
+        [[p]][[strong]]Definition:[[/strong]] Recency Decay controls how much we care about old draws versus new ones. If it's 1.0, every draw is treated exactly the same. If it's lower (like 0.8), each step back in time becomes a bit less important.[[/p]]
+        [[p]][[strong]]Imagine this:[[/strong]] You collect a sticker each day. With 0.8 decay, yesterday's sticker counts full, but the one from two days ago counts as 0.8?1=0.8, three days ago as 0.8?0.8=0.64, and so on.[[/p]]
         [[p]][[strong]]Why It Helps:[[/strong]] It lets the AI focus more on recent trends without forgetting the past completely.[[/p]]
         [[ul style="padding-left: 20px; margin-top: 5px;"]]
-         [[li]]1.0 means ?all days are equally important.?[[/li]]
-         [[li]]0.9 means ?each day back is 10% less important.?[[/li]]
+         [[li]]1.0 means "all days are equally important."[[/li]]
+         [[li]]0.9 means "each day back is 10% less important."[[/li]]
          [[li]]0.5 makes older days fade very fast (half as important each step).[[/li]]
         [[/ul]]
         
@@ -1507,7 +1507,7 @@ document.addEventListener('DOMContentLoaded', function () {
                      style="min-width:92px; text-align:right; font-weight:700; color:var(--skai-navy);"
                      aria-live="polite"
                    ]]
-                     ? = 1.00
+                     lambda = 1.00
                    [[/span]]
                  [[/div]]
                [[/label]]
@@ -1561,7 +1561,7 @@ document.addEventListener('DOMContentLoaded', function () {
   Drawn Date: [[strong]]<?php echo $nearestDrawDate; ?>[[/strong]],
   Draw Numbers: [[strong]]<?php
     echo is_array($nearestDrawNumbers)
-      ? implode(', ', $nearestDrawNumbers)
+      implode(', ', $nearestDrawNumbers)
       : htmlspecialchars($nearestDrawNumbers, ENT_QUOTES, 'UTF-8');
   ?>[[/strong]]
 [[/p]]
@@ -1622,7 +1622,7 @@ document.addEventListener('DOMContentLoaded', function () {
       [[input type="hidden" name="recency_decay" id="saveRecencyDecay"]]
       
       [[label style="display:block; font-weight:bold; margin:6px 0 2px;"]]Label[[/label]]
-<?php $labelText = $lotteryName . " Prediction ? " . date('M j, Y'); ?>
+<?php $labelText = $lotteryName . " Prediction - " . date('M j, Y'); ?>
 [[input type="text" name="label" id="saveLabel" value="<?php echo htmlspecialchars($labelText); ?>" style="width:100%; ?"]]
 
       <?php if ($userCanSave): ?>
@@ -1742,7 +1742,7 @@ document.addEventListener('DOMContentLoaded', function () {
     border-left-color: var(--skai-amber);
   }
 
-  /* Charts inside tiles ? consistent aspect and breathing room */
+  /* Charts inside tiles - consistent aspect and breathing room */
   .tile canvas {
     width: 100% !important;
     height: 240px !important;
@@ -1863,10 +1863,10 @@ document.addEventListener('DOMContentLoaded', function () {
     [[/h3]]
     [[p class="mdc-typography--body1" style="line-height:1.6;"]]
       SKAI starts with a verified history of past draws from our secure database. Each record includes:[[br/]]
-      [[strong]]Winning numbers:[[?/strong]] the actual numbers drawn in each game.[[br/]]
-      [[strong]]Draw dates:[[?/strong]] when each drawing took place.[[br/]]
-      [[strong]]Jackpot amounts:[[?/strong]] prize size when available.[[br/]]
-      [[strong]]Bonus-ball details:[[?/strong]] Powerball, EuroMillions stars, or other extra balls. [[br/]][[br/]]
+      [[strong]]Winning numbers:[[/strong]] the actual numbers drawn in each game.[[br/]]
+      [[strong]]Draw dates:[[/strong]] when each drawing took place.[[br/]]
+      [[strong]]Jackpot amounts:[[/strong]] prize size when available.[[br/]]
+      [[strong]]Bonus-ball details:[[/strong]] Powerball, EuroMillions stars, or other extra balls. [[br/]][[br/]]
       Automated checks look for duplicates, missing values, and format issues, so the model learns from consistent, trustworthy data.
     [[/p]]
   [[/div]]
@@ -1877,10 +1877,10 @@ document.addEventListener('DOMContentLoaded', function () {
     [[/h3]]
     [[p class="mdc-typography--body1" style="line-height:1.6;"]]
       Raw draws are transformed into features the model can understand:[[br/]]
-      [[strong]]Normalization:[[?/strong]] values are scaled so different ranges are comparable.[[br/]]
-      [[strong]]Vector encoding:[[?/strong]] each draw becomes a consistent numeric ?snapshot.?[[br/]]
-      [[strong]]Outlier checks:[[?/strong]] unusual records are reviewed and, if needed, excluded.[[br/]]
-      [[strong]]Time-based features:[[?/strong]] SKAI derives patterns like gaps between repeats and rolling averages over recent draws.
+      [[strong]]Normalization:[[/strong]] values are scaled so different ranges are comparable.[[br/]]
+      [[strong]]Vector encoding:[[/strong]] each draw becomes a consistent numeric "snapshot."[[br/]]
+      [[strong]]Outlier checks:[[/strong]] unusual records are reviewed and, if needed, excluded.[[br/]]
+      [[strong]]Time-based features:[[/strong]] SKAI derives patterns like gaps between repeats and rolling averages over recent draws.
     [[/p]]
   [[/div]]
 
@@ -1892,22 +1892,22 @@ document.addEventListener('DOMContentLoaded', function () {
       SKAI uses a deep neural network, tuned through a few key settings:
     [[/p]]
     [[dl style="margin-left:16px; line-height:1.6;"]]
-      [[dt]][[strong]]Epochs:[[?/strong]][[/dt]]
+      [[dt]][[strong]]Epochs:[[/strong]][[/dt]]
       [[dd]]How many full passes the model makes through the data. More epochs allow deeper learning, up to a point.[[/dd]]
 
-      [[dt]][[strong]]Batch size:[[?/strong]][[/dt]]
+      [[dt]][[strong]]Batch size:[[/strong]][[/dt]]
       [[dd]]How many past draws the model processes at once before updating itself. This balances speed and stability.[[/dd]]
 
-      [[dt]][[strong]]Dropout rate:[[?/strong]][[/dt]]
-      [[dd]]A fraction of ?turned-off? neurons during training that helps prevent overfitting and keeps the model honest.[[/dd]]
+      [[dt]][[strong]]Dropout rate:[[/strong]][[/dt]]
+      [[dd]]A fraction of "turned-off" neurons during training that helps prevent overfitting and keeps the model honest.[[/dd]]
 
-      [[dt]][[strong]]Learning rate:[[?/strong]][[/dt]]
+      [[dt]][[strong]]Learning rate:[[/strong]][[/dt]]
       [[dd]]How big a step the model takes when it learns from an error. Too high can be unstable; too low slows improvement.[[/dd]]
 
-      [[dt]][[strong]]Activation function:[[?/strong]][[/dt]]
+      [[dt]][[strong]]Activation function:[[/strong]][[/dt]]
       [[dd]]Non-linear functions (ReLU, Sigmoid, Tanh) that let the network capture more than simple straight-line trends.[[/dd]]
 
-      [[dt]][[strong]]Hidden layers:[[?/strong]][[/dt]]
+      [[dt]][[strong]]Hidden layers:[[/strong]][[/dt]]
       [[dd]]Stacked layers that move from basic frequencies to more subtle co-occurrence patterns between numbers.[[/dd]]
     [[/dl]]
     [[p class="mdc-typography--caption" style="margin-top:8px; color:var(--text-muted); font-style:italic;"]]
@@ -1921,8 +1921,8 @@ document.addEventListener('DOMContentLoaded', function () {
     [[/h3]]
     [[p class="mdc-typography--body1" style="line-height:1.6;"]]
       After training, SKAI assigns a probability score to every possible number. From there, it:[[br/]]
-      [[strong]]Ranks:[[?/strong]] orders all numbers from most to least likely, based on the learned patterns.[[br/]]
-      [[strong]]Selects:[[?/strong]] chooses the top candidates (for example, 5 main numbers plus any required bonus balls) for your analysis view.
+      [[strong]]Ranks:[[/strong]] orders all numbers from most to least likely, based on the learned patterns.[[br/]]
+      [[strong]]Selects:[[/strong]] chooses the top candidates (for example, 5 main numbers plus any required bonus balls) for your analysis view.
     [[/p]]
   [[/div]]
 
@@ -1932,8 +1932,8 @@ document.addEventListener('DOMContentLoaded', function () {
     [[/h3]]
     [[p class="mdc-typography--body1" style="line-height:1.6;"]]
       Before you trust any settings, you can replay them on past draws:[[br/]]
-      [[strong]]Configure:[[?/strong]] pick how many draws to test and which metrics you care about (hits, matches, or custom rules).[[br/]]
-      [[strong]]Review:[[?/strong]] compare actual vs. predicted results to see how that configuration behaved historically.
+      [[strong]]Configure:[[/strong]] pick how many draws to test and which metrics you care about (hits, matches, or custom rules).[[br/]]
+      [[strong]]Review:[[/strong]] compare actual vs. predicted results to see how that configuration behaved historically.
     [[/p]]
   [[/div]]
 
@@ -1960,7 +1960,7 @@ document.addEventListener('DOMContentLoaded', function () {
     [[/h3]]
 
     [[p]]
-      Wheeling takes a set of smart numbers ? for example, the [[strong]]20[[/strong]] numbers SKAI highlights ? and spreads them across multiple tickets in an organized way. Instead of relying on a single line, you cover more combinations from the same pool.
+      Wheeling takes a set of smart numbers - for example, the [[strong]]20[[/strong]] numbers SKAI highlights ? and spreads them across multiple tickets in an organized way. Instead of relying on a single line, you cover more combinations from the same pool.
     [[/p]]
 
     [[table style="width:100%; border-collapse:collapse; text-align:center; font-size:14px; margin-top:10px;"]]
@@ -1985,7 +1985,7 @@ document.addEventListener('DOMContentLoaded', function () {
     [[/table]]
 
     [[p]]
-      In plain terms, wheeling is a way to give your chosen numbers more ?coverage? without needing to buy thousands of random tickets. You decide how many combinations fit your budget, and the wheel fills them in systematically.
+      In plain terms, wheeling is a way to give your chosen numbers more "coverage" without needing to buy thousands of random tickets. You decide how many combinations fit your budget, and the wheel fills them in systematically.
     [[/p]]
 
     [[figure style="margin-top:10px; text-align:center;"]]
@@ -2163,7 +2163,7 @@ function renderBacktestResults(results) {
       const recencyDecayInput = document.getElementById('recencyDecay');
       const recencyDecayLambdaReadout = document.getElementById('recencyDecayLambdaReadout');
 
-      // PATCH 7B-1: Live SKAI blend readout (AI ? vs Skip 1-?, plus ? and T)
+      // PATCH 7B-1: Live SKAI blend readout (AI lambda vs Skip 1-lambda, plus beta and T)
       const skaiBlendReadoutEl = document.getElementById('skaiBlendReadout');
 
       function skaiFmt2(n) {
@@ -2184,7 +2184,7 @@ function renderBacktestResults(results) {
         var skip = 1 - lam;
         skaiBlendReadoutEl.textContent =
           'Mode: ' + String(modeKey || 'balanced') +
-          ' ? AI ?: ' + skaiFmt2(lam) +
+          ' - AI lambda: ' + skaiFmt2(lam) +
           ' ? Skip: ' + skaiFmt2(skip) +
           ' ? ?: ' + skaiFmt2(beta) +
           ' ? T: ' + skaiFmt2(tempT);
@@ -2221,7 +2221,7 @@ function renderBacktestResults(results) {
         });
       }
 
-  // ---- SKAI Mode Presets (Option B ? game-aware) ----
+  // ---- SKAI Mode Presets (Option B - game-aware) ----
   var skaiGameType = '<?php echo $skaiGameType; ?>'; // 'jackpot', 'pick5', 'daily', 'multiExtra'
 
   // Capture base values from JSON config as "Balanced" anchors
@@ -2476,7 +2476,7 @@ function describeMode(modeKey) {
 
       /* PATCH: Disabled legacy SKAI preset system (duplicate listeners / conflicting behavior).
          The active system is the newer:
-         // ---- SKAI Mode Presets (Option B ? game-aware) ----
+         // ---- SKAI Mode Presets (Option B - game-aware) ----
          above this block.
       // === SKAI Mode Presets (Balanced / Explorative / Conservative) ===
       var skaiModeButtons = document.querySelectorAll('.skai-mode-btn');
@@ -2511,7 +2511,7 @@ function describeMode(modeKey) {
 
         if (mode === 'balanced') {
           // Use defaults as-is
-          desc = 'Balanced mode uses LottoExpert?s recommended defaults ? a steady choice for everyday play that balances learning from recent draws with long-term behaviour.';
+          desc = 'Balanced mode uses LottoExpert's recommended defaults - a steady choice for everyday play that balances learning from recent draws with long-term behaviour.';
         } else if (mode === 'explorative') {
           // Lean harder into patterns and recent data
           e = Math.round(baseEpochs * 1.3);
@@ -2622,14 +2622,14 @@ const SKIP_ALPHA = 0.3;
 // NOTE: SKIP_ALPHA remains for backwards-compatibility, but SKAI now uses a coherent expert blend.
 var SKAI_EPS               = 1e-9;
 var SKAI_SKIP_BETA_DEFAULT = 2.0;  // controls how strongly skipScores separate numbers (hoist-safe)
-var SKAI_BLEND_DEFAULT     = 0.65; // Balanced-mode default AI weight ? (hoist-safe)
+var SKAI_BLEND_DEFAULT     = 0.65; // Balanced-mode default AI weight (hoist-safe)
 
 function getSelectedSkaiMode() {
   const btn = document.querySelector('.skai-mode-btn[aria-pressed="true"]');
   return (btn && btn.getAttribute('data-skai-mode')) ? btn.getAttribute('data-skai-mode') : 'balanced';
 }
 
-// Mode ? ? (AI weight). Higher ? = more AI-forward.
+// Mode -> lambda (AI weight). Higher lambda = more AI-forward.
 function getSkaiBlendLambda(modeKey) {
   if (modeKey === 'ai-forward')     { return 0.90; }
   if (modeKey === 'conservative')   { return 0.80; }
@@ -2672,7 +2672,7 @@ function skaiAdaptiveLambdaMixed(aiNorm, skipProb) {
   return Math.max(0.35, Math.min(0.90, lambda));
 }
 
-// Unified ? getter: fixed for other modes; adaptive for Mixed.
+// Unified lambda getter: fixed for other modes; adaptive for Mixed.
 function getSkaiLambda(modeKey, aiNorm, skipProb) {
   if (modeKey === 'mixed') {
     return skaiAdaptiveLambdaMixed(aiNorm, skipProb);
@@ -2681,7 +2681,7 @@ function getSkaiLambda(modeKey, aiNorm, skipProb) {
   return (typeof lam === 'number' && isFinite(lam)) ? lam : SKAI_BLEND_DEFAULT;
 }
 
-// Mode-aware skip separation (beta). Higher beta makes Skip expert ?sharper?.
+// Mode-aware skip separation (beta). Higher beta makes Skip expert "sharper".
 function getSkaiSkipBeta(modeKey) {
   if (modeKey === 'skip-dominant') { return 3.0; }
   if (modeKey === 'explorative')   { return 2.5; }
@@ -2698,7 +2698,7 @@ function getSkaiExploreTau(modeKey) {
   return 1.0;
 }
 
-// How many picks should be ?explore sampled? instead of strict top-k.
+// How many picks should be "explore sampled" instead of strict top-k.
 function getSkaiExploreCount(modeKey, pickSize) {
   if (modeKey === 'explorative') { return Math.max(1, Math.floor(pickSize * 0.30)); }
   if (modeKey === 'mixed')       { return Math.max(1, Math.floor(pickSize * 0.20)); }
@@ -2807,7 +2807,7 @@ function buildSkipExpertProbs(skipScores, beta) {
   return normalizePositive(raw);
 }
 
-// Log-opinion pool (geometric mixture): p ? ai^? * skip^(1-?)
+// Log-opinion pool (geometric mixture): p = ai^lambda * skip^(1-lambda)
 function logOpinionPool(aiProbs, skipProbs, lambda) {
   const out = new Array(aiProbs.length);
   for (let i = 0; i < aiProbs.length; i++) {
@@ -3133,7 +3133,7 @@ async function runBacktesting(sortedDrawsAsc, settings) {
       ? skipScoresForBacktest
       : new Array(aiNormMain.length).fill(0);
 
-   // Mode-aware skip expert + adaptive Mixed ? (agreement-based)
+   // Mode-aware skip expert + adaptive Mixed lambda (agreement-based)
     const modeKeyBT = getSelectedSkaiMode();
 
     const skipBetaBT = getSkaiSkipBeta(modeKeyBT);
@@ -3141,7 +3141,7 @@ async function runBacktesting(sortedDrawsAsc, settings) {
 
     const lambdaBT = getSkaiLambda(modeKeyBT, aiNormMain, skipProbMain);
 
-    // PATCH 7B-3B: backtest readout (shows the ? being used for this run)
+    // PATCH 7B-3B: backtest readout (shows the lambda being used for this run)
     var tBT = (typeof skaiGetStoredTemp === 'function') ? skaiGetStoredTemp(modeKeyBT) : 1.0;
     skaiUpdateBlendReadout(modeKeyBT, lambdaBT, skipBetaBT, tBT);
 
@@ -3385,7 +3385,7 @@ setTimeout(() => {
         const ys_extra = [];
 
         // PATCH: Medium recency weighting without sampleWeight (TFJS build limitation)
-        // Strategy: replicate newest 25% of training pairs 3? (older 75% stay 1?)
+        // Strategy: replicate newest 25% of training pairs 3x (older 75% stay 1x)
         const totalPairs   = historicalData.length - 1;
         const recentStart  = Math.floor(totalPairs * 0.75); // newest 25%
 
@@ -3565,10 +3565,10 @@ setTimeout(() => {
           const skipBetaLocal = getSkaiSkipBeta(modeKey);
           const skipProbLocal = buildSkipExpertProbs(skipArr, skipBetaLocal);
 
-          // 3) Blend weight ? (adaptive in Mixed)
+          // 3) Blend weight lambda (adaptive in Mixed)
           const lambdaLocal = getSkaiLambda(modeKey, aiNorm, skipProbLocal);
 
-          // Live blend readout (AI ? vs Skip 1-?, plus ? and T)
+          // Live blend readout (AI lambda vs Skip 1-lambda, plus beta and T)
           var tLive = (typeof skaiGetStoredTemp === 'function') ? skaiGetStoredTemp(modeKey) : 1.0;
           skaiUpdateBlendReadout(modeKey, lambdaLocal, skipBetaLocal, tLive);
 
@@ -3576,8 +3576,8 @@ setTimeout(() => {
 
           // PATCH: removed duplicate (older) SKAI blend block to prevent redeclarations
 
-          // PATCH 7B-3A: live readout with actual ? (adaptive in Mixed)
-          // PATCH: lambdaLocal is the live ? from the SKAI blend block above
+          // PATCH 7B-3A: live readout with actual lambda (adaptive in Mixed)
+          // PATCH: lambdaLocal is the live lambda from the SKAI blend block above
           var tLive = (typeof skaiGetStoredTemp === 'function') ? skaiGetStoredTemp(modeKey) : 1.0;
           skaiUpdateBlendReadout(modeKey, lambdaLocal, skipBetaLocal, tLive);
 
@@ -3692,7 +3692,7 @@ document.getElementById('saveLabel').value =
 
         
         
-        // ? format to YYYY-MM-DD HH:MM:SS for our DB ?
+        // Format to YYYY-MM-DD HH:MM:SS for our DB
 function formatDateForDB(d) {
   const p = n => String(n).padStart(2,'0');
   return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ` +
