@@ -333,7 +333,24 @@ $tableName = $foundSpec['tableName'];  // e.g. "#__lotterydb_pa"
  * Returns DATETIME (adds ' 00:00:00' if the source is DATE-only).
  */
 function getNextDrawDate($gameId, $db, $tableName) {
-    $tbl = $db->quoteName($db->replacePrefix($tableName));
+    // Extract suffix from #__tablename pattern, then build full name safely
+    // Check if tableName is empty
+    if (trim($tableName) === '') {
+        throw new \RuntimeException('Invalid table name in getNextDrawDate: tableName is empty');
+    }
+    
+    if (strpos($tableName, '#__') === 0) {
+        // Has #__ prefix, extract suffix
+        $suffix = substr($tableName, 3);
+        if (empty(trim($suffix))) {
+            throw new \RuntimeException('Invalid table name pattern in getNextDrawDate: empty suffix after #__');
+        }
+        $fullTableName = $db->getPrefix() . $suffix;
+    } else {
+        // No #__ prefix, use as-is with prefix
+        $fullTableName = $db->getPrefix() . $tableName;
+    }
+    $tbl = $db->quoteName($fullTableName);
     $q   = $db->getQuery(true)
         ->select($db->quoteName('next_draw_date'))
         ->from($tbl)
@@ -384,7 +401,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && JSession::checkToken() && isset($_P
     // ? lookup the Joomla lottery PK by game_id (no state abbreviations)
     $q = $db->getQuery(true)
         ->select('l.game_id')
-        ->from( $db->quoteName('#__lotteries','l') )
+        ->from( $db->quoteName($db->getPrefix() . 'lotteries','l') )
         ->where('l.lottery_id = ' . $lottery);
     $db->setQuery($q);
     $gameDbId = $db->loadResult();
@@ -403,7 +420,7 @@ if (empty($nextDraw)) {
 
     // ? build INSERT with next_draw_date column
     $ins = $db->getQuery(true)
-        ->insert($db->quoteName('#__user_saved_numbers'))
+        ->insert($db->quoteName($db->getPrefix() . 'user_saved_numbers'))
         ->columns([
   'user_id','lottery_id','main_numbers','extra_ball_numbers',
   'source','label','draws_analyzed','generated_at','date_saved',
@@ -466,7 +483,7 @@ if (!isset($config[$gameId])) {
 
 $queryLottery = $db->getQuery(true)
     ->select($db->quoteName('lottery_id'))
-    ->from($db->quoteName('#__lotteries'))
+    ->from($db->quoteName($db->getPrefix() . 'lotteries'))
     ->where($db->quoteName('game_id') . ' = ' . $db->quote($gameId));
 $db->setQuery($queryLottery);
 $lottery_id = (int)$db->loadResult();
@@ -606,7 +623,24 @@ $best = end($stats);
 
 // Securely connect to the Joomla database
 
-$dbCol = $db->quoteName($db->replacePrefix($foundSpec['tableName']));
+// Extract suffix from #__tablename pattern, then build full name safely
+// Check if tableName key exists and is not empty
+if (!isset($foundSpec['tableName']) || trim($foundSpec['tableName']) === '') {
+    die('Invalid table name in lottery specs: tableName is missing or empty. Please check lotteries.json for game ID ' . $gameId);
+}
+
+if (strpos($foundSpec['tableName'], '#__') === 0) {
+    // Has #__ prefix, extract suffix
+    $tableSuffix = substr($foundSpec['tableName'], 3);
+    if (empty(trim($tableSuffix))) {
+        die('Invalid table name pattern in lottery specs: empty suffix after #__');
+    }
+    $fullDbTableName = $db->getPrefix() . $tableSuffix;
+} else {
+    // No #__ prefix, use as-is with prefix
+    $fullDbTableName = $db->getPrefix() . $foundSpec['tableName'];
+}
+$dbCol = $db->quoteName($fullDbTableName);
 
 
 $gameIdCol = $db->quoteName('game_id');
